@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import axios from 'axios';
 import process from 'process';
-import axiosInstance from 'services/axiosInstace';
+import axiosInstance from 'services/axiosInstance';
 
 const OTPRequest = () => {
   const apiURL = process.env.REACT_APP_API_URL;
