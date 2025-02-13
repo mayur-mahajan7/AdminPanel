@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import axios from 'axios';
 import process from 'process';
-import axiosInstance from 'services/axiosInstance';
+import api from 'services/axiosInstance';
 
 const OTPRequest = () => {
   const apiURL = process.env.REACT_APP_API_URL;
@@ -14,7 +14,7 @@ const OTPRequest = () => {
   const navigate = useNavigate();
 
   const sendOtp = (phone) => {
-    axiosInstance
+    api
       .post(`api/user/send-otp`, { mobile: phone.toString() })
       .then((response) => {
         console.log(response.data);
@@ -26,7 +26,6 @@ const OTPRequest = () => {
         console.error('Error sending OTP:', error.response?.data || error.message);
       });
   };
-  
   return (
     <Formik
       initialValues={{

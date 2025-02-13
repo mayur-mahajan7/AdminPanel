@@ -1,9 +1,9 @@
-// src/axiosInstance.js
+// src/api.js
 
 import axios from 'axios';
 
 // Create an Axios instance
-const axiosInstance = axios.create({
+const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL, // Get base URL from .env
   headers: {
     'Content-Type': 'application/json'
@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
 });
 
 // Request interceptor
-axiosInstance.interceptors.request.use(
+api.interceptors.request.use(
   (config) => {
     // Add authorization token if needed
     const token = localStorage.getItem('token'); // Example of getting token from local storage
@@ -27,7 +27,7 @@ axiosInstance.interceptors.request.use(
 );
 
 // Response interceptor
-axiosInstance.interceptors.response.use(
+api.interceptors.response.use(
   (response) => {
     // Any additional processing on response data (e.g., logging)
     return response;
@@ -42,4 +42,4 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export default axiosInstance;
+export default api;

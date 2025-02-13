@@ -5,6 +5,7 @@ import { Row, Col, Alert, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import axios from 'axios';
+import api from 'services/axiosInstance';
 
 const OTPVerification = () => {
   const [otpVerified, setOtpVerified] = useState(false);
@@ -14,7 +15,7 @@ const OTPVerification = () => {
   const mobileNumber = location.state?.mobile || '';
 
   const verifyOtp = (otp) => {
-    axios
+    api
       .post(
         'http://16.170.83.70:3000/admin/verify-otp',
         {
