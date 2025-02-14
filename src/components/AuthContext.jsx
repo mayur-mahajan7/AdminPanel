@@ -19,7 +19,8 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  return <AuthContext.Provider value={{ isAuthenticated, login, logout }}>{children}</AuthContext.Provider>;
+  // The context value should include both isAuthenticated and login/logout methods
+  return <AuthContext.Provider value={{ isAuthenticated, login, logout ,setIsAuthenticated}}>{children}</AuthContext.Provider>;
 };
 
 // Custom hook to access authentication context

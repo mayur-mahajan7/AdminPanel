@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Loader from './components/Loader/Loader';
 import AdminLayout from './layouts/AdminLayout';
-import AuthGuard from './components/AuthGuard'; // Import the guard
+import AuthGuard from './components/AuthGuard';
 
 import { BASE_URL } from './config/constant';
 
@@ -133,7 +133,7 @@ const routes = [
         exact: 'true',
         path: '/verify-otp',
         element: lazy(() => import('./views/auth/signin/verifyOTP')),
-        isProtected: true
+        isProtected: false
       },
       {
         path: '*',
