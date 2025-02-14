@@ -1,31 +1,107 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+// src/OTPRequest.js
+
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Row, Col, Alert, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import axios from 'axios';
-import process from 'process';
 import api from 'services/axiosInstance';
 
 const OTPRequest = () => {
-  const apiURL = process.env.REACT_APP_API_URL;
-  const [otpSent, setOtpSent] = useState(false);
+  const [isTokenValid, setIsTokenValid] = useState(false);
   const navigate = useNavigate();
+
+  // Check if accessToken and refreshToken are valid or can be refreshed
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (accessToken) {
+      // Validate the accessToken
+      api
+        .get('/auth/validate-token')
+        .then((response) => {
+          // If token is valid, redirect to homepage
+          navigate('/');
+        })
+        .catch(() => {
+          // If token validation fails, try using the refresh token
+          if (refreshToken) {
+            api
+              .post('/auth/refresh-token', { refreshToken })
+              .then((response) => {
+                const { accessToken, refreshToken: newRefreshToken } = response.data;
+                // Store new tokens
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', newRefreshToken);
+
+                // Now validate the new accessToken and redirect if valid
+                api
+                  .get('/auth/validate-token')
+                  .then(() => {
+                    navigate('/');
+                  })
+                  .catch(() => {
+                    // If both tokens fail, load OTP request page
+                    setIsTokenValid(false);
+                  });
+              })
+              .catch(() => {
+                // If refresh fails, load OTP request page
+                setIsTokenValid(false);
+              });
+          } else {
+            // If no refresh token, load OTP request page
+            setIsTokenValid(false);
+          }
+        });
+    } else if (refreshToken) {
+      // If accessToken doesn't exist, but refreshToken does, try to refresh the accessToken
+      api
+        .post('/auth/refresh-token', { refreshToken })
+        .then((response) => {
+          const { accessToken, refreshToken: newRefreshToken } = response.data;
+          // Store new tokens
+          localStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('refreshToken', newRefreshToken);
+
+          // Validate the new accessToken and redirect if valid
+          api
+            .get('/auth/validate-token')
+            .then(() => {
+              navigate('/');
+            })
+            .catch(() => {
+              setIsTokenValid(false);
+            });
+        })
+        .catch(() => {
+          setIsTokenValid(false);
+        });
+    } else {
+      // If no valid tokens, show OTP request form
+      setIsTokenValid(false);
+    }
+  }, [navigate]);
+
+  // If tokens are valid or refreshed, we don't show the OTP request form
+  if (isTokenValid) {
+    return null;
+  }
 
   const sendOtp = (phone) => {
     api
-      .post(`api/user/send-otp`, { mobile: phone.toString() })
+      .post('admin/send-otp', { mobile: phone.toString() })
       .then((response) => {
-        console.log(response.data);
-        setOtpSent(true);
-        navigate('/verify-otp', { state: { mobile: phone } });
+        navigate('/verify-otp', { state: { mobile: phone } }); // Proceed to OTP verification
       })
       .catch((error) => {
         console.log(error);
         console.error('Error sending OTP:', error.response?.data || error.message);
       });
   };
+
   return (
     <Formik
       initialValues={{
