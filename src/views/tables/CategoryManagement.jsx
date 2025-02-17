@@ -10,6 +10,7 @@ import { Button, Container, Row, Col, Card, Table, Modal, Form, Spinner, InputGr
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
+import api from 'services/axiosInstance';
 
 const CategoryManagement = () => {
   const [categories, setCategories] = useState([]);
@@ -31,13 +32,13 @@ const CategoryManagement = () => {
   const navigate = useNavigate();
 
   // Temporary hardcoded token (Replace with a dynamic one from localStorage or context)
-  const token = import.meta.env.VITE_TOKEN;
+  const token = localStorage.getItem('accessToken');
 
   // Fetch categories from API
   const fetchCategories = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://16.170.83.70:3001/category/all', {
+      const response = await api.get('/category/all', {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -135,7 +136,7 @@ const CategoryManagement = () => {
           label: 'Yes',
           onClick: async () => {
             try {
-              await axios.delete(`http://16.170.83.70:3001/category/delete/${id}`, {
+              await api.delete(`/category/delete/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
               });
 
@@ -199,7 +200,7 @@ const CategoryManagement = () => {
 
     try {
       if (selectedCategory) {
-        await axios.put(`http://16.170.83.70:3001/category/update/${selectedCategory.id}`, data, {
+        await api.put(`/category/update/${selectedCategory.id}`, data, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`
@@ -208,7 +209,7 @@ const CategoryManagement = () => {
 
         toast.success('Category updated successfully');
       } else {
-        await axios.post('http://16.170.83.70:3001/category/create', data, {
+        await api.post('/category/create', data, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`
@@ -284,7 +285,7 @@ const CategoryManagement = () => {
                               <td>
                                 {category.image ? (
                                   <img
-                                    src={`http://16.170.83.70:3001/${category.image}`}
+                                    src={`/${category.image}`}
                                     alt="Category"
                                     style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '5px' }}
                                   />

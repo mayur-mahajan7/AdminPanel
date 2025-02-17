@@ -9,6 +9,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Button, Container, Row, Col, Card, Table, Modal, Form, Spinner, InputGroup, FormControl } from 'react-bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactPaginate from 'react-paginate';
+import api from 'services/axiosInstance';
 
 const SkillManagement = () => {
   const [skills, setSkills] = useState([]);
@@ -25,13 +26,13 @@ const SkillManagement = () => {
   const [search, setSearch] = useState('');
   const itemsPerPage = 5;
   const navigate = useNavigate();
-  const token = import.meta.env.VITE_TOKEN;
+  const token = localStorage.getItem('accessToken');
 
   /** Fetch all skills */
   const fetchSkills = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://16.170.83.70:3001/skill/all', {
+      const response = await api.get('/skill/all', {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -50,7 +51,7 @@ const SkillManagement = () => {
   /** Fetch main categories */
   const fetchMainCategories = async () => {
     try {
-      const response = await axios.get('http://16.170.83.70:3001/category/all', {
+      const response = await api.get('/category/all', {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -100,7 +101,7 @@ const SkillManagement = () => {
           label: 'Yes',
           onClick: async () => {
             try {
-              await axios.delete(`http://16.170.83.70:3001/skill/delete/${id}`, {
+              await api.delete(`/skill/delete/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
               });
               await fetchSkills();
@@ -171,12 +172,12 @@ const SkillManagement = () => {
 
     try {
       if (selectedSkill) {
-        await axios.put(`http://16.170.83.70:3001/skill/update/${selectedSkill.id}`, data, {
+        await api.put(`/skill/update/${selectedSkill.id}`, data, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success('Skill updated successfully');
       } else {
-        await axios.post('http://16.170.83.70:3001/skill/create', skillData, {
+        await api.post('/skill/create', skillData, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success('Skill added successfully');
