@@ -54,6 +54,12 @@ const routes = [
     isProtected: false // Set isProtected to false for signup route
   },
   {
+    exact: 'true',
+    path: '/verify-otp',
+    element: lazy(() => import('./views/auth/signin/verifyOTP')),
+    isProtected: false
+  },
+  {
     path: '*',
     layout: AdminLayout,
     routes: [
@@ -62,42 +68,6 @@ const routes = [
         path: '/app/dashboard/default',
         element: lazy(() => import('./views/dashboard')),
         isProtected: true // Set isProtected to true for protected routes
-      },
-      {
-        exact: 'true',
-        path: '/basic/button',
-        element: lazy(() => import('./views/ui-elements/basic/BasicButton')),
-        isProtected: true
-      },
-      {
-        exact: 'true',
-        path: '/basic/badges',
-        element: lazy(() => import('./views/ui-elements/basic/BasicBadges')),
-        isProtected: true
-      },
-      {
-        exact: 'true',
-        path: '/basic/breadcrumb-paging',
-        element: lazy(() => import('./views/ui-elements/basic/BasicBreadcrumb')),
-        isProtected: true
-      },
-      {
-        exact: 'true',
-        path: '/basic/collapse',
-        element: lazy(() => import('./views/ui-elements/basic/BasicCollapse')),
-        isProtected: true
-      },
-      {
-        exact: 'true',
-        path: '/basic/tabs-pills',
-        element: lazy(() => import('./views/ui-elements/basic/BasicTabsPills')),
-        isProtected: true
-      },
-      {
-        exact: 'true',
-        path: '/basic/typography',
-        element: lazy(() => import('./views/ui-elements/basic/BasicTypography')),
-        isProtected: true
       },
       {
         exact: 'true',
@@ -113,27 +83,9 @@ const routes = [
       },
       {
         exact: 'true',
-        path: '/charts/nvd3',
-        element: lazy(() => import('./views/charts/nvd3-chart')),
+        path: '/logout',
+        element: lazy(() => import('./views/auth/LogOut/LogOut')),
         isProtected: true
-      },
-      {
-        exact: 'true',
-        path: '/maps/google-map',
-        element: lazy(() => import('./views/maps/GoogleMaps')),
-        isProtected: true
-      },
-      {
-        exact: 'true',
-        path: '/sample-page',
-        element: lazy(() => import('./views/extra/SamplePage')),
-        isProtected: true
-      },
-      {
-        exact: 'true',
-        path: '/verify-otp',
-        element: lazy(() => import('./views/auth/signin/verifyOTP')),
-        isProtected: false
       },
       {
         path: '*',

@@ -20,7 +20,7 @@ const OTPVerification = () => {
       .post(
         'admin/verify-otp',
         {
-          mobile: mobileNumber.toString(), // Pass the mobile number dynamically
+          mobile: mobileNumber.toString(),
           otp: otp.toString()
         },
         {
