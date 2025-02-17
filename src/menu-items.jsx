@@ -15,28 +15,42 @@ const menuItems = {
         }
       ]
     },
-    // {
-    //   id: 'ui-forms',
-    //   title: 'FORMS & TABLES',
-    //   type: 'group',
-    //   icon: 'icon-group',
-    //   children: [
-    //     {
-    //       id: 'forms',
-    //       title: 'Form Elements',
-    //       type: 'item',
-    //       icon: 'feather icon-file-text',
-    //       url: '/forms/form-basic'
-    //     },
-    //     {
-    //       id: 'table',
-    //       title: 'Table',
-    //       type: 'item',
-    //       icon: 'feather icon-server',
-    //       url: '/tables/bootstrap'
-    //     }
-    //   ]
-    // },
+    {
+      id: 'ui-forms',
+      title: 'FORMS & TABLES',
+      type: 'group',
+      icon: 'icon-group',
+      children: [
+        // {
+        //   id: 'forms',
+        //   title: 'Form Elements',
+        //   type: 'item',
+        //   icon: 'feather icon-file-text',
+        //   url: '/forms/form-basic'
+        // },
+        // {
+        //   id: 'table',
+        //   title: 'Table',
+        //   type: 'item',
+        //   icon: 'feather icon-server',
+        //   url: '/tables/bootstrap'
+        // },
+        {
+          id: 'categoryManagement',
+          title: 'Category Management',
+          type: 'item',
+          icon: 'feather icon-layers',
+          url: '/tables/category-management'
+        },
+        {
+          id: 'skillManagement',
+          title: 'Skill Management',
+          type: 'item',
+          icon: 'feather icon-filter',
+          url: '/tables/skill-management'
+        }
+      ]
+    },
     {
       id: 'pages',
       title: 'Pages',

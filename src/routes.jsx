@@ -71,14 +71,14 @@ const routes = [
       },
       {
         exact: 'true',
-        path: '/forms/form-basic',
-        element: lazy(() => import('./views/forms/FormsElements')),
+        path: '/tables/category-management',
+        element: lazy(() => import('./views/tables/CategoryManagement')),
         isProtected: true
       },
       {
         exact: 'true',
-        path: '/tables/bootstrap',
-        element: lazy(() => import('./views/tables/BootstrapTable')),
+        path: '/tables/skill-management',
+        element: lazy(() => import('./views/tables/SkillManagement')),
         isProtected: true
       },
       {
